@@ -4,7 +4,7 @@ export const basicButton = css`
     display: flex;
     justify-content: center;
     align-items: center;
-
+    
     box-sizing: border-box;
     border: none;
     border-radius: 0.7rem;
@@ -14,7 +14,7 @@ export const basicButton = css`
 
     font-size: 2.5rem;
     cursor: pointer;
-    
+
     &:hover {
         background-color: #00000011;
     }

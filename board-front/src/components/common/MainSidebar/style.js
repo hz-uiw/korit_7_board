@@ -5,7 +5,7 @@ export const layout = (isOpen) => css`
     transition: all 0.5s ease-in-out;
     box-sizing: border-box;
 
-    width: ${isOpen ? "30rem" : "0rem"};
+    width: ${isOpen ? "30rem" : "0"};
     height: 100%;
 
     background-color: #f8f8f5;
@@ -18,7 +18,7 @@ export const container = css`
     padding: 0.6rem;
     width: 30rem;
     height: 100%;
-`;
+    `;
 
 export const groupLayout = css`
     box-sizing: border-box;

@@ -21,35 +21,38 @@
 
     <select id="selectByUsername">
         select
-            user_id,
-            username,
-            password,
-            email,
-            nickname,
-            oauth2_name,
-            oauth2_provider,
-            account_expired,
-            account_locked,
-            credentials_expired,
-            account_enabled,
-            created_at
+        user_id,
+        username,
+        password,
+        email,
+        nickname,
+        oauth2_name,
+        oauth2_provider,
+        account_expired,
+        account_locked,
+        credentials_expired,
+        account_enabled,
+        created_at
+        from
+        user_tb
+        where
+        username = #{username}
     </select>
     <insert id="insert" useGeneratedKeys="true" keyProperty="userId">
-        insert into
-            user_tb
+        insert into user_tb
         values (
-            default,
-            #{username},
-            #{password},
-            #{email},
-            #{nickname},
-            #{oauth2Name},
-            #{oauth2Provider},
-            #{accountExpired},
-            #{accountLocked},
-            #{credentialsExpired},
-            #{accountEnabled},
-            now()
+        default,
+        #{username},
+        #{password},
+        #{email},
+        #{nickname},
+        #{oAuth2Name},
+        #{oAuth2Provider},
+        #{accountExpired},
+        #{accountLocked},
+        #{credentialsExpired},
+        #{accountEnabled},
+        now()
         )
     </insert>
 </mapper>

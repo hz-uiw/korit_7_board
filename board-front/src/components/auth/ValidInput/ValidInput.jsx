@@ -1,35 +1,34 @@
 /**@jsxImportSource @emotion/react */
 import * as s from './style';
-import React, { useState } from 'react';
 
 function ValidInput({
-    type, 
-    name, 
-    placeholder, 
-    value, 
+    type,
+    name,
+    placeholder,
+    value,
     onChange,
     onFocus = null,
-    regexp, 
+    regexp,
     errorMessage,
     inputValidError,
     setInputValidError
-    }) {
+}) {
+    
     const handleOnBlur = () => {
         setInputValidError(prev => ({
             ...prev,
-            [name]: !regexp.test(value),
-        }));    
+            [name]: !regexp.test(value), // 외부에서 받아오는 name 대신 e 를 받아와서 e.target.name 으로 해도 됨
+        }));
     }
-
-
+    
     return (
         <div css={s.groupBox}>
-            <input css={s.textInput} 
-                type={type} 
+            <input css={s.textInput}
+                type={type}
                 name={name}
                 placeholder={placeholder}
                 value={value}
-                onChange={onChange} 
+                onChange={onChange}
                 onFocus={onFocus}
                 onBlur={handleOnBlur}
             />

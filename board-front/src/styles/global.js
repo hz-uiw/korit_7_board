@@ -1,11 +1,10 @@
 import { css } from "@emotion/react";
 
 export const global = css`
-
     @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap');
 
     * {
-        color: #333333;
+        color: #222222;
     }
 
     html, body, #root {
@@ -15,7 +14,7 @@ export const global = css`
         overflow: auto;
 
         font-family: "Noto Sans KR", serif;
-        font-size: 62.5%;   /** 1rem을 10px로 변환 */
+        font-size: 62.5%;  /** 1rem 을 10px 로 변환 */
     }
 
     #root {
@@ -24,8 +23,4 @@ export const global = css`
         align-items: center;
         background-color: #fafafa;
     }
-
-
-
-
 `;

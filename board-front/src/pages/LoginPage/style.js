@@ -12,14 +12,14 @@ export const layout = css`
 export const title1 = css`
     margin: 0.5rem 0;
     font-size: 2rem;
-    cursor: default;
+    cursor: pointer;
 `;
 
 export const title2 = css`
     margin: 0.5rem 0;
     font-size: 2rem;
     color: #bbbbbb;
-    cursor: default;    
+    cursor: pointer;
 `;
 
 export const groupBox = css`
@@ -72,7 +72,6 @@ export const oauth2Group = css`
     box-sizing: border-box;
     margin-bottom: 1rem;
     border-bottom: 0.1rem solid #dbdbdb;
-    padding-top: 2rem;
     padding-bottom: 1rem;
 `;
 
@@ -88,7 +87,7 @@ export const oauth2Button = css`
     height: 3.6rem;
     background-color: transparent;
     cursor: pointer;
-    
+
     &:active {
         background-color: #fafafa;
     }

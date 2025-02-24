@@ -10,7 +10,7 @@ import JoinPage from "./pages/JoinPage/JoinPage"
 function App() {
 
 	return (
-    	<>
+		<>
 			<Global styles={global} />
 			<MainLayout>
 				<MainSidebar />
@@ -19,11 +19,10 @@ function App() {
 						<Route path="/auth/login" element={<LoginPage />} />
 						<Route path="/auth/join" element={<JoinPage />} />
 					</Routes>
-					
 				</MainContainer>
 			</MainLayout>
-    	</>
-  	)
+		</>
+	)
 }
 
 export default App

@@ -1,16 +1,15 @@
 /**@jsxImportSource @emotion/react */
-import * as s from './style';
-import React from 'react';
-import { SiGoogle, SiKakao, SiNaver } from "react-icons/si";
 import { Link } from 'react-router-dom';
+import * as s from './style';
+import { SiGoogle, SiKakao, SiNaver } from "react-icons/si";
 
 function LoginPage(props) {
     return (
         <div css={s.layout}>
             <div>
                 <header>
-                    <h1 css={s.title1}>Think it. Make it.</h1>
-                    <h1 css={s.title2}>Log in to your Board account</h1>
+                    <h1 css={s.title1}>Think it. Make it</h1>
+                    <h1 css={s.title2}>Login to your account</h1>
                 </header>
                 <main>
                     <div css={s.oauth2Group}>
@@ -47,6 +46,7 @@ function LoginPage(props) {
                             <button css={s.accountButton}>Login</button>
                         </div>
                     </div>
+                    <div></div>
                 </main>
                 <footer>
                     <p css={s.footerAgreement}>

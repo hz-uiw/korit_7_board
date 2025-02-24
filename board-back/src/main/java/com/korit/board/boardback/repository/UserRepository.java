@@ -16,4 +16,9 @@ public class UserRepository {
     public Optional<User> findByUsername(String username) {
         return Optional.ofNullable(userMapper.selectByUsername(username));
     }
+
+    public User save(User user) {
+        userMapper.insert(user);
+        return user;
+    }
 }

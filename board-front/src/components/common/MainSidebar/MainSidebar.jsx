@@ -1,15 +1,15 @@
 /**@jsxImportSource @emotion/react */
 import * as s from './style';
-import React from 'react';
-import { FiChevronsLeft } from "react-icons/fi";
 import { basicButton, emptyButton } from '../../../styles/buttons';
+import { FiChevronsLeft } from "react-icons/fi";
 import { useRecoilState } from 'recoil';
 import { mainSidebarIsOpenState } from '../../../atoms/mainSidebar/mainSidebarAtom';
 import { LuLockKeyhole } from "react-icons/lu";
 
+
 function MainSidebar(props) {
     const [ isOpen, setOpen ] = useRecoilState(mainSidebarIsOpenState);
-
+    
     const handleSidebarClose = () => {
         setOpen(false);
     }
@@ -29,7 +29,6 @@ function MainSidebar(props) {
                         <button css={basicButton} onClick={handleSidebarClose}><FiChevronsLeft /></button>
                     </div>
                 </div>
-                
             </div>
         </div>
     );
