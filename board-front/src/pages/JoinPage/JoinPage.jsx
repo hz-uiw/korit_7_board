@@ -76,7 +76,7 @@ function JoinPage(props) {
         }).then(response => {
             console.log(response);
             alert("가입해 주셔서 감사합니다.");
-            navigate(`/auth/login?username=${response.data.username}`);
+            navigate(`/auth/login?username=${response.data.email}`);
         }).catch(error => {
             if(error.status === 400) {
                 setInputValidError(prev => ({
