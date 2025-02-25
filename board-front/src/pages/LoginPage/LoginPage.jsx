@@ -2,7 +2,6 @@
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import * as s from './style';
 import { SiGoogle, SiKakao, SiNaver } from "react-icons/si";
-import ValidInput from '../../components/auth/ValidInput/ValidInput';
 import { useState } from 'react';
 import { useLoginMutation } from '../../mutations/authMutation';
 import Swal from 'sweetalert2';
@@ -10,47 +9,63 @@ import { setTokenLocalStorage } from '../../configs/axiosConfig';
 import { useUserMeQuery } from '../../queries/userQuery';
 
 function LoginPage(props) {
-    const navigate = useNavigate();
     const loginMutation = useLoginMutation();
+    const navigate = useNavigate();
     const loginUser = useUserMeQuery();
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const [inputValue, setInputValue] = useState({
-        username: searchParams.get("username"),
+    const [ searchParams, setSearchParams ] = useSearchParams();
+    
+    const [ inputValue, setInputValue ] = useState({
+        username: searchParams.get("username") || "",
         password: "",
     });
-    
+
     const handleInputOnChange = (e) => {
         setInputValue(prev => ({
             ...prev,
             [e.target.name]: e.target.value,
         }));
     }
+    
+    const isEmpty = () => {
+        const isEmptyInBox = Object.values(inputValue).map(value => !!value).includes(false);
+
+        return isEmptyInBox;
+    }
 
     const handleLoginOnClick = async () => {
+        if(isEmpty()) {
+            await Swal.fire({
+                title: '로그인 실패',
+                text: '사용자 정보를 입력해주세요!',
+                confirmButtonText: '확인',
+                confirmButtonColor: "#e22323"
+            });
+            return;
+        }
+
         try {
             const response = await loginMutation.mutateAsync(inputValue);
             const tokenName = response.data.name;
             const accessToken = response.data.token;
             setTokenLocalStorage(tokenName, accessToken);
             await Swal.fire({
-                position: "center",
                 icon: "success",
-                title: "로그인 성공",
-                showConfirmButton: false,
+                text: "로그인 성공",
                 timer: 1000,
+                position: "center",
+                showConfirmButton: false,
             });
             loginUser.refetch();
             navigate("/");
-        } catch (error) {
+        } catch(error) {
             await Swal.fire({
-                title: '로그인 실패!',
-                text: '사용자 정보를 다시 확인해주세요',
+                title: '로그인 실패',
+                text: '사용자 정보를 다시 확인해주세요!',
                 confirmButtonText: '확인',
                 confirmButtonColor: "#e22323"
             });
         }
-        
     }
 
     return (
@@ -88,7 +103,6 @@ function LoginPage(props) {
                                 value={inputValue.username}
                                 onChange={handleInputOnChange}
                             />
-                            
                         </div>
                         <div css={s.groupBox}>
                             <input css={s.textInput} type="password" placeholder='password...'

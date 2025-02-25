@@ -17,20 +17,7 @@ import java.util.stream.Collectors;
 public class PrincipalUser implements UserDetails, OAuth2User {
     private User user;
     private Map<String, Object> attributes;
-    private String name;        // oauth2의 키값
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return user.getUserRoles()
-                .stream()
-                .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getRoleName()))
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public String getName() {
-        return attributes.get("id").toString();
-    }
+    private String name;
 
     @Override
     public String getUsername() {
@@ -43,8 +30,22 @@ public class PrincipalUser implements UserDetails, OAuth2User {
     }
 
     @Override
+    public String getName() { // oauth2 의 key 값
+        return attributes.get("id").toString();
+    }
+
+    @Override
     public Map<String, Object> getAttributes() {
         return attributes;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return user
+                .getUserRoles()
+                .stream()
+                .map(userRole -> new SimpleGrantedAuthority(userRole.getRole().getRoleName()))
+                .collect(Collectors.toList());
     }
 
     @Override

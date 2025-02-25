@@ -3,6 +3,7 @@ import * as s from './style';
 import { SiGoogle, SiKakao, SiNaver } from "react-icons/si";
 import { Link, useNavigate } from 'react-router-dom';
 import ValidInput from '../../components/auth/ValidInput/ValidInput';
+import { useInputValid } from '../../hooks/validInputHook';
 import { useJoinMutation } from '../../mutations/authMutation';
 import { useState } from 'react';
 
@@ -17,12 +18,12 @@ function JoinPage(props) {
         passwordCheck: "",
     });
     
-        const handleInputOnChange = (e) => {
-            setInputValue(prev => ({
-                ...prev,
-                [e.target.name]: e.target.value,
-            }));
-        }
+    const handleInputOnChange = (e) => {
+        setInputValue(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }));
+    }
     
     const [ inputValidError, setInputValidError ] = useState({
         username: false,

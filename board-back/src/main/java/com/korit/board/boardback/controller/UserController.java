@@ -12,15 +12,19 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
     @GetMapping("/user/me")
     public ResponseEntity<?> getLoginUser(@AuthenticationPrincipal PrincipalUser principalUser) {
-//        PrincipalUser = principalUser = (PrincipalUser) SecurityContextHolder
-//                .getContext()
-//                .getAuthentication()
-//                .getPrincipal();      // 매개변수 @AuthenticationPrincipal PrincipalUser principalUser와 같음
+//        PrincipalUser principalUser1 =
+//                (PrincipalUser) SecurityContextHolder
+//                        .getContext()
+//                        .getAuthentication()
+//                        .getPrincipal();              // 이 코드를 @AuthenticationPrincipal 하나로 해결 가능
+
+//        int userId = principalUser.getUser().getUserId();     // login 시 인증 토큰을 받기 때문에 이렇게 할 필요 X
 
         return ResponseEntity.ok().body(principalUser.getUser());
     }

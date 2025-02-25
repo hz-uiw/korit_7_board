@@ -11,13 +11,14 @@ function ValidInput({
     regexp = null,
     errorMessage = "",
     inputValidError = null,
-    setInputValidError = null,
+    setInputValidError = null
 }) {
     
     const handleOnBlur = () => {
         if(!regexp) {
             return;
         }
+
         setInputValidError(prev => ({
             ...prev,
             [name]: !regexp.test(value), // 외부에서 받아오는 name 대신 e 를 받아와서 e.target.name 으로 해도 됨

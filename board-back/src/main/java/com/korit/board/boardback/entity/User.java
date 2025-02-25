@@ -29,5 +29,5 @@ public class User {
     private int accountEnabled;
     private LocalDateTime createdAt;
 
-    private Set<UserRole> userRoles;
+    private Set<UserRole> userRoles; // List 로 해도 됨. 순서가 상관 없기 때문에 Set 을 사용
 }

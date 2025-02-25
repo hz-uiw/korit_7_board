@@ -11,7 +11,7 @@ import java.util.Optional;
 public class UserRepository {
 
     @Autowired
-    UserMapper userMapper;
+    private UserMapper userMapper;
 
     public Optional<User> findById(int userId) {
         return Optional.ofNullable(userMapper.selectById(userId));
@@ -21,7 +21,7 @@ public class UserRepository {
         return Optional.ofNullable(userMapper.selectByUsername(username));
     }
 
-    public User save(User user) {
+    public User save(User user) { // 회원가입 시 중복체크를 이미 했기 때문에 Optional 로 받을 필요가 없음(무조건 회원가입이 되기 때문)
         userMapper.insert(user);
         return user;
     }

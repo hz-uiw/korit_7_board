@@ -11,7 +11,6 @@ import { useNavigate } from 'react-router-dom';
 
 function MainSidebar(props) {
     const navigate = useNavigate();
-
     const [ isOpen, setOpen ] = useRecoilState(mainSidebarIsOpenState);
     
     const loginUser = useUserMeQuery();
@@ -20,7 +19,7 @@ function MainSidebar(props) {
         setOpen(false);
     }
 
-    const handleLoginButtonOnClick = () => {
+    const handleLoginButtonOnclick = () => {
         navigate("/auth/login");
     }
 
@@ -30,11 +29,22 @@ function MainSidebar(props) {
                 <div css={s.groupLayout}>
                     <div css={s.topGroup}>
                         <div css={s.user}>
-                            <button css={emptyButton} onClick={handleLoginButtonOnClick}>
-                                <span css={s.authText}>
-                                    <LuLockKeyhole />로그인 후 이용하기
-                                </span>
-                            </button>
+                            {
+                                loginUser.isError
+                                ? 
+                                <button css={emptyButton} onClick={handleLoginButtonOnclick}>
+                                    <span css={s.authText}>
+                                        <LuLockKeyhole />로그인 후 이용하기
+                                    </span>
+                                </button>
+                                :
+                                <button css={emptyButton}>
+                                    <span css={s.authText}>
+                                        <LuLockKeyhole />{loginUser.data?.data?.nickname}
+                                    </span>
+                                </button>
+                            }
+                            
                         </div>
                         <button css={basicButton} onClick={handleSidebarClose}><FiChevronsLeft /></button>
                     </div>

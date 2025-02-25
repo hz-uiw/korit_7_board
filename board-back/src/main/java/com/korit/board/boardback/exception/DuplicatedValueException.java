@@ -9,7 +9,7 @@ public class DuplicatedValueException extends RuntimeException {
     private List<FieldError> fieldErrors;
 
     public DuplicatedValueException(List<FieldError> fieldErrors) {
-        super("Duplicated Error");
+        super("중복 오류");
         this.fieldErrors = fieldErrors;
     }
 }

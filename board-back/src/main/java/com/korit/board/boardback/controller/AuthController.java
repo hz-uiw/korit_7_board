@@ -7,7 +7,10 @@ import com.korit.board.boardback.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -22,16 +25,16 @@ public class AuthController {
         return ResponseEntity.ok().body(userService.join(dto));
     }
 
-    @Operation(summary = "로그인", description = "로그인 설명")
+    @Operation(summary = "로그인" ,description = "로그인 설명")
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody ReqLoginDto dto) {
         /*
-            userService -> login()
-            user 객체 findByUsername
-            user가 있으면 비밀번호 일치하는지 확인
-            비밀번호가 일치하면 JWT 응답
-            JWTUtil -> secret 셋팅
-         */
+         * UserService -> login()
+         * User 객체 findByUsername
+         * user 가 있으면 비밀번호 일치하는지 확인
+         * 비밀번호가 일치하면 JWT 응답
+         * JwtUtil -> secret 세팅
+         * */
         RespTokenDto respTokenDto = RespTokenDto.builder()
                 .type("JWT")
                 .name("AccessToken")
@@ -39,10 +42,5 @@ public class AuthController {
                 .build();
 
         return ResponseEntity.ok().body(respTokenDto);
-    }
-
-    @Autowired
-    public void setUserService(UserService userService) {
-        this.userService = userService;
     }
 }

@@ -5,9 +5,9 @@
 <mapper namespace="com.korit.board.boardback.mapper.UserMapper">
 
     <resultMap id="roleResultMap" type="com.korit.board.boardback.entity.Role">
-        <id property="roleId" column="rt_role_id" />
-        <result property="roleName" column="role_name"/>
-        <result property="roleNameKor" column="role_name_kor"/>
+        <id property="roleId" column="role_id" />
+        <result property="roleName" column="role_name" />
+        <result property="roleNameKor" column="role_name_kor" />
     </resultMap>
 
     <resultMap id="userRoleResultMap" type="com.korit.board.boardback.entity.UserRole">
@@ -16,7 +16,6 @@
         <result property="roleId" column="urt_role_id" />
         <association property="role" resultMap="roleResultMap" />
     </resultMap>
-
 
     <resultMap id="userResultMap" type="com.korit.board.boardback.entity.User">
         <id property="userId" column="user_id" />
@@ -55,13 +54,13 @@
             urt.user_id as urt_user_id,
             urt.role_id as urt_role_id,
 
-            rt.role_id as rt_role_id,
+            rt.role_id,
             rt.role_name,
             rt.role_name_kor
         from
-            user_tb as ut
-            left outer join user_role_tb as urt on(urt.user_id = ut.user_id)
-            left outer join role_tb as rt on(rt.role_id = urt.role_id)
+            user_tb ut
+            left outer join user_role_tb urt on(urt.user_id = ut.user_id)
+            left outer join role_tb rt on(rt.role_id = urt.role_id)
         where
             ut.user_id = #{userId}
     </select>
@@ -80,11 +79,19 @@
             ut.account_locked,
             ut.credentials_expired,
             ut.account_enabled,
-            ut.created_at
+            ut.created_at,
+
+            urt.user_role_id,
+            urt.user_id as urt_user_id,
+            urt.role_id as urt_role_id,
+
+            rt.role_id,
+            rt.role_name,
+            rt.role_name_kor
         from
-            user_tb as ut
-            left outer join user_role_tb as urt on(urt.user_id = ut.user_id)
-            left outer join role_tb as rt on(rt.role_id = urt.role_id)
+            user_tb ut
+            left outer join user_role_tb urt on(urt.user_id = ut.user_id)
+            left outer join role_tb rt on(rt.role_id = urt.role_id)
         where
             ut.username = #{username}
     </select>

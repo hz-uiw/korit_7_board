@@ -15,5 +15,5 @@ public class Role {
     private int roleId;
     private String roleName;
     private String roleNameKor;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 }

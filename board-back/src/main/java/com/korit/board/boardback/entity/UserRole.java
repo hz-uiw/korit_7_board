@@ -15,7 +15,7 @@ public class UserRole {
     private int userRoleId;
     private int userId;
     private int roleId;
-    private LocalDateTime createAt;
+    private LocalDateTime createdAt;
 
-    private Role Role;
+    private Role role;
 }

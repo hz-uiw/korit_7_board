@@ -23,16 +23,13 @@ import java.util.List;
 public class UserService {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private UserRoleRepository userRoleRepository;
-
-    @Autowired
     private BCryptPasswordEncoder passwordEncoder;
-
     @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private UserRoleRepository userRoleRepository;
 
     public boolean duplicatedByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
@@ -43,8 +40,8 @@ public class UserService {
         if(duplicatedByUsername(reqJoinDto.getUsername())) {
             throw new DuplicatedValueException(List.of(FieldError.builder()
                             .field("username")
-                            .message("이미 존재하는 사용자 이름입니다.")
-                    .build()));
+                            .message("이미 존재하는 사용자이름입니다.")
+                            .build()));
         }
         User user = User.builder()
                 .username(reqJoinDto.getUsername())
@@ -57,23 +54,30 @@ public class UserService {
                 .accountEnabled(1)
                 .build();
         userRepository.save(user);
+
         UserRole userRole = UserRole.builder()
                 .userId(user.getUserId())
-                .roleId(1)
+                .roleId(1)      // 원래는 role_tb 에서 select 로 찾아서 넣어야함
                 .build();
         userRoleRepository.save(userRole);
+
         return user;
     }
 
-    public String login(ReqLoginDto dto) {
-        User user = userRepository.findByUsername(dto.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("사용자 정보를 다시 확인하세요"));
-        if(!passwordEncoder.matches(dto.getPassword(), user.getPassword())) {
+    public String login(ReqLoginDto reqLoginDto) {
+        User user = userRepository
+                .findByUsername(reqLoginDto.getUsername())
+                .orElseThrow(() -> new UsernameNotFoundException("사용자 정보를 다시 확인하세요."));
+
+        if(!passwordEncoder.matches(reqLoginDto.getPassword(), user.getPassword())) {
             throw new BadCredentialsException("사용자 정보를 다시 확인하세요.");
         }
 
         Date expires = new Date(new Date().getTime() + (1000l * 60 * 60 * 24 * 7));
 
-        return jwtUtil.generateToken(user.getUsername(), Integer.toString(user.getUserId()), expires);
+        return jwtUtil.generateToken(
+                user.getUsername(),
+                Integer.toString(user.getUserId()),
+                expires);
     }
 }

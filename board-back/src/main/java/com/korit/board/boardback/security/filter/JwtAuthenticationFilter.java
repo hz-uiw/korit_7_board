@@ -19,10 +19,9 @@ import java.io.IOException;
 public class JwtAuthenticationFilter implements Filter {
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private JwtUtil jwtUtil;
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -33,10 +32,8 @@ public class JwtAuthenticationFilter implements Filter {
         filterChain.doFilter(servletRequest, servletResponse);
     }
 
-    private void jwtAuthentication (String accessToken) {
-        if(accessToken ==null) {
-            return;
-        }
+    private void jwtAuthentication(String accessToken) {
+        if(accessToken == null) {return;}
         Claims claims = jwtUtil.parseToken(accessToken);
 
         int userId = Integer.parseInt(claims.getId());
@@ -52,8 +49,7 @@ public class JwtAuthenticationFilter implements Filter {
         String accessToken = null;
         String authorization = request.getHeader("Authorization");
 
-
-        if (authorization != null && authorization.startsWith("bearer ")) {
+        if (authorization != null && authorization.startsWith("Bearer ")) {
             accessToken = authorization.substring(7);
         }
 
