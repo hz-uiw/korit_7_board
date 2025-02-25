@@ -2,6 +2,7 @@ package com.korit.board.boardback.controller;
 
 import com.korit.board.boardback.dto.request.ReqJoinDto;
 import com.korit.board.boardback.dto.request.ReqLoginDto;
+import com.korit.board.boardback.dto.response.RespTokenDto;
 import com.korit.board.boardback.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,13 @@ public class AuthController {
             비밀번호가 일치하면 JWT 응답
             JWTUtil -> secret 셋팅
          */
-        return ResponseEntity.ok().body(userService.login(dto));
+        RespTokenDto respTokenDto = RespTokenDto.builder()
+                .type("JWT")
+                .name("AccessToken")
+                .token(userService.login(dto))
+                .build();
+
+        return ResponseEntity.ok().body(respTokenDto);
     }
 
     @Autowired

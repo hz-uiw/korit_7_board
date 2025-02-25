@@ -1,13 +1,19 @@
 /**@jsxImportSource @emotion/react */
-import { Link, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import * as s from './style';
 import { SiGoogle, SiKakao, SiNaver } from "react-icons/si";
 import ValidInput from '../../components/auth/ValidInput/ValidInput';
 import { useState } from 'react';
 import { useLoginMutation } from '../../mutations/authMutation';
+import Swal from 'sweetalert2';
+import { setTokenLocalStorage } from '../../configs/axiosConfig';
+import { useUserMeQuery } from '../../queries/userQuery';
 
 function LoginPage(props) {
+    const navigate = useNavigate();
     const loginMutation = useLoginMutation();
+    const loginUser = useUserMeQuery();
+
     const [searchParams, setSearchParams] = useSearchParams();
     const [inputValue, setInputValue] = useState({
         username: searchParams.get("username"),
@@ -24,9 +30,25 @@ function LoginPage(props) {
     const handleLoginOnClick = async () => {
         try {
             const response = await loginMutation.mutateAsync(inputValue);
-            console.log(response.data);
+            const tokenName = response.data.name;
+            const accessToken = response.data.token;
+            setTokenLocalStorage(tokenName, accessToken);
+            await Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "로그인 성공",
+                showConfirmButton: false,
+                timer: 1000,
+            });
+            loginUser.refetch();
+            navigate("/");
         } catch (error) {
-
+            await Swal.fire({
+                title: '로그인 실패!',
+                text: '사용자 정보를 다시 확인해주세요',
+                confirmButtonText: '확인',
+                confirmButtonColor: "#e22323"
+            });
         }
         
     }

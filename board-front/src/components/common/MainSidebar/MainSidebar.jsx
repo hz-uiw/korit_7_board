@@ -5,13 +5,23 @@ import { FiChevronsLeft } from "react-icons/fi";
 import { useRecoilState } from 'recoil';
 import { mainSidebarIsOpenState } from '../../../atoms/mainSidebar/mainSidebarAtom';
 import { LuLockKeyhole } from "react-icons/lu";
+import { useUserMeQuery } from '../../../queries/userQuery';
+import { useNavigate } from 'react-router-dom';
 
 
 function MainSidebar(props) {
+    const navigate = useNavigate();
+
     const [ isOpen, setOpen ] = useRecoilState(mainSidebarIsOpenState);
     
+    const loginUser = useUserMeQuery();
+
     const handleSidebarClose = () => {
         setOpen(false);
+    }
+
+    const handleLoginButtonOnClick = () => {
+        navigate("/auth/login");
     }
 
     return (
@@ -20,7 +30,7 @@ function MainSidebar(props) {
                 <div css={s.groupLayout}>
                     <div css={s.topGroup}>
                         <div css={s.user}>
-                            <button css={emptyButton}>
+                            <button css={emptyButton} onClick={handleLoginButtonOnClick}>
                                 <span css={s.authText}>
                                     <LuLockKeyhole />로그인 후 이용하기
                                 </span>

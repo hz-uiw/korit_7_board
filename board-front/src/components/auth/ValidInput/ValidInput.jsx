@@ -6,7 +6,7 @@ function ValidInput({
     name = "",
     placeholder = "",
     value,
-    onCha = null,
+    onChange = null,
     onFocus = null,
     regexp = null,
     errorMessage = "",
