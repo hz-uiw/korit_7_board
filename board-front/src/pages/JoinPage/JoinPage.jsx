@@ -3,7 +3,6 @@ import * as s from './style';
 import { SiGoogle, SiKakao, SiNaver } from "react-icons/si";
 import { Link, useNavigate } from 'react-router-dom';
 import ValidInput from '../../components/auth/ValidInput/ValidInput';
-import { useInputValid } from '../../hooks/validInputHook';
 import { useJoinMutation } from '../../mutations/authMutation';
 import { useState } from 'react';
 
@@ -76,7 +75,7 @@ function JoinPage(props) {
         }).then(response => {
             console.log(response);
             alert("가입해 주셔서 감사합니다.");
-            navigate(`/auth/login?username=${response.data.email}`);
+            navigate(`/auth/login?username=${response.data.username}`);
         }).catch(error => {
             if(error.status === 400) {
                 setInputValidError(prev => ({

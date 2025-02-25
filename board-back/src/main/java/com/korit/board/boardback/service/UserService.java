@@ -6,6 +6,7 @@ import com.korit.board.boardback.exception.DuplicatedValueException;
 import com.korit.board.boardback.exception.FieldError;
 import com.korit.board.boardback.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -13,6 +14,10 @@ import java.util.List;
 
 @Service
 public class UserService {
+
+    @Autowired
+    private BCryptPasswordEncoder passwordEncoder;
+
     @Autowired
     private UserRepository userRepository;
 
@@ -30,7 +35,7 @@ public class UserService {
         }
         User user = User.builder()
                 .username(reqJoinDto.getUsername())
-                .password(reqJoinDto.getPassword())
+                .password(passwordEncoder.encode(reqJoinDto.getPassword()))
                 .email(reqJoinDto.getEmail())
                 .nickname(reqJoinDto.getUsername())
                 .accountExpired(1)
@@ -40,4 +45,6 @@ public class UserService {
                 .build();
         return userRepository.save(user);
     }
+
+
 }
