@@ -58,5 +58,26 @@ export const inputGroup = css`
         padding: 0.5rem 1rem;
         font-size: 1.4rem;
         color: #666666;
+        background-color: #fafafa;
+    }
+`;
+
+export const setButton = css`
+    box-sizing: border-box;
+    border: none;
+    border-radius: 0.5rem;
+    padding: 0.8rem 2rem;
+    width: 100%;
+    background-color: #2383e2;
+    color: #ffffff;
+    cursor: pointer;
+
+    &:active {
+        background-color: #1b65af;
+    }
+
+    &:disabled {
+        background-color: #eeeeee;
+        cursor: default;
     }
 `;

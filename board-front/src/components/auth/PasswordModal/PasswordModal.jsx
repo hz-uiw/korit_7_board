@@ -28,7 +28,7 @@ function PasswordModal({setOpen}) {
                         <label>Confirm your new password</label>
                         <input type="password" />
                     </div>
-                    <button>Set a password</button>
+                    <button css={s.setButton}>Set a password</button>
                 </div>
             </div>
         </div>
