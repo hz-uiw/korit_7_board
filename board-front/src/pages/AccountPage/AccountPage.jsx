@@ -5,6 +5,7 @@ import { useUserMeQuery } from '../../queries/userQuery';
 import { api } from '../../configs/axiosConfig';
 import { useUpdateNicknameMutation, useUpdateProfileImgMutation } from '../../mutations/accountMutation';
 import ReactModal from 'react-modal';
+import PasswordModal from '../../components/auth/PasswordModal/PasswordModal';
 
 function AccountPage(props) {
     const loginUser = useUserMeQuery();
@@ -89,16 +90,18 @@ function AccountPage(props) {
                     overlay: {
                         display: "flex",
                         justifyContent: "center",
-                        alignItems: "center"
-
+                        alignItems: "center",
+                        backgroundColor: "#00000066",
                     },
                     content: {
                         position: "static",
                         boxSizing: "border-box",
-                        width: "50rem",
-                        height: "60rem",
+                        borderRadius: "1.5rem",
+                        width: "35rem",
+                        height: "35rem",
                     }
                 }}
+                children={<PasswordModal setOpen={setPasswordModalOpen}/>}
             />
         </div>
     );
