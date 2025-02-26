@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 import java.util.List;
@@ -30,6 +31,8 @@ public class UserService {
     private UserRepository userRepository;
     @Autowired
     private UserRoleRepository userRoleRepository;
+    @Autowired
+    private FileService fileService;
 
     public boolean duplicatedByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
@@ -79,5 +82,11 @@ public class UserService {
                 user.getUsername(),
                 Integer.toString(user.getUserId()),
                 expires);
+    }
+
+    public void updateProfileImg(int userId, MultipartFile file) {
+        final String PROFILE_IMG_FILE_PATH = "/upload/user/profile";
+        String savedFileName = fileService.saveFile(PROFILE_IMG_FILE_PATH, file);
+        userRepository.updateProfileImg(userId, savedFileName);
     }
 }

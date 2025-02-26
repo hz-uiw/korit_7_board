@@ -12,18 +12,20 @@ function AccountPage(props) {
         setNickNameValue(loginUser?.data?.data.nickname)
     }, [loginUser.isFetched]);
 
-    const handleProfileImgFile = (e) => {
+    const handleProfileImgFile = async (e) => {
         console.log({element: e.target});
         const fileList = e.target.files;
         const file = fileList[0];
 
         const formData = new FormData();
         formData.append("file", file);
-        api.post("/api/user/profile/img", formData, {
+
+        await api.post("/api/user/profile/img", formData, {
             headers: {
                 "Content-Type": "multipart/form-data"
-            }
+            },
         });
+        loginUser.refetch();
     }
     return (
         <div css={s.container}>

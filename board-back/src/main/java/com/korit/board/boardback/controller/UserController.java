@@ -1,6 +1,7 @@
 package com.korit.board.boardback.controller;
 
 import com.korit.board.boardback.security.principal.PrincipalUser;
+import com.korit.board.boardback.service.FileService;
 import com.korit.board.boardback.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,12 @@ public class UserController {
         return ResponseEntity.ok().body(principalUser.getUser());
     }
 
+
     @PostMapping("/user/profile/img")
-    public ResponseEntity<?> changeProfileImg(@RequestPart MultipartFile file) {
-        System.out.println(file.getOriginalFilename());
-        return ResponseEntity.ok().body(null);
+    public ResponseEntity<?> changeProfileImg(
+            @AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestPart MultipartFile file) {
+        userService.updateProfileImg(principalUser.getUser().getUserId(), file);
+        return ResponseEntity.ok().build();
     }
 }
