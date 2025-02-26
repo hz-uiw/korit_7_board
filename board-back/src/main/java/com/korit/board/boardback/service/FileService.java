@@ -34,4 +34,11 @@ public class FileService {
         }
         return newFilename;
     }
+
+    public void deleteFile(String path) {
+        File file = new File(rootPath + "/" + path);
+        if(file.exists()) {
+            file.delete();
+        }
+    }
 }

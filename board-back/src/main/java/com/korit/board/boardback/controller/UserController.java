@@ -24,8 +24,11 @@ public class UserController {
 //                        .getAuthentication()
 //                        .getPrincipal();              // 이 코드를 @AuthenticationPrincipal 하나로 해결 가능
 
-//        int userId = principalUser.getUser().getUserId();     // login 시 인증 토큰을 받기 때문에 이렇게 할 필요 X
+//        int userId = principalUser.getUser().getUserId();
 
+        if(principalUser.getUser().getProfileImg() == null) {
+            principalUser.getUser().setProfileImg("default.jpg");
+        }
         return ResponseEntity.ok().body(principalUser.getUser());
     }
 
@@ -34,7 +37,7 @@ public class UserController {
     public ResponseEntity<?> changeProfileImg(
             @AuthenticationPrincipal PrincipalUser principalUser,
             @RequestPart MultipartFile file) {
-        userService.updateProfileImg(principalUser.getUser().getUserId(), file);
+        userService.updateProfileImg(principalUser.getUser(), file);
         return ResponseEntity.ok().build();
     }
 }

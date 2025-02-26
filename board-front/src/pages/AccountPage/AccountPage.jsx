@@ -3,9 +3,11 @@ import * as s from './style';
 import { useEffect, useState } from 'react';
 import { useUserMeQuery } from '../../queries/userQuery';
 import { api } from '../../configs/axiosConfig';
+import { useUpdateProfileImgMutation } from '../../mutations/accountMutation';
 
 function AccountPage(props) {
     const loginUser = useUserMeQuery();
+    const updateProfileImgMutation = useUpdateProfileImgMutation();
     const [nicknameValue, setNickNameValue] = useState("");
 
     useEffect(() => {
@@ -20,11 +22,7 @@ function AccountPage(props) {
         const formData = new FormData();
         formData.append("file", file);
 
-        await api.post("/api/user/profile/img", formData, {
-            headers: {
-                "Content-Type": "multipart/form-data"
-            },
-        });
+        await updateProfileImgMutation.mutateAsync(formData);
         loginUser.refetch();
     }
     return (
@@ -33,7 +31,10 @@ function AccountPage(props) {
             
             <div css={s.accountBox}>
                 <label css={s.profileImgBox}>
-                    <img src={`http://localhost:8080/image/user/profile/${loginUser?.data?.data.profileImg || "default.jpg"}`} alt="" />
+                    {
+                        loginUser.isLoading ||
+                        <img src={`http://localhost:8080/image/user/profile/${loginUser?.data?.data.profileImg}`} alt="" />
+                    }
                     <input type="file" onChange={handleProfileImgFile}/>
                 </label>
                 <div>
