@@ -69,6 +69,11 @@ export const saveButton = css`
     &:active {
         background-color: #1b65af;
     }
+
+    &:disabled {
+        background-color: #eeeeee;
+        cursor: default;
+    }
 `;
 
 export const itemGroup = css`

@@ -84,11 +84,17 @@ public class UserService {
                 expires);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     public void updateProfileImg(User user, MultipartFile file) {
         final String PROFILE_IMG_FILE_PATH = "/upload/user/profile";
         String savedFileName = fileService.saveFile(PROFILE_IMG_FILE_PATH, file);
         userRepository.updateProfileImg(user.getUserId(), savedFileName);
         if(user.getProfileImg() == null) {return;}
         fileService.deleteFile(PROFILE_IMG_FILE_PATH + "/" + user.getProfileImg());
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void updateNickname(User user, String nickname) {
+        userRepository.updateNickname(user.getUserId(), nickname);
     }
 }

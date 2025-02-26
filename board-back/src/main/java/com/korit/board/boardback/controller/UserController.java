@@ -9,6 +9,8 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api")
 public class UserController {
@@ -38,6 +40,15 @@ public class UserController {
             @AuthenticationPrincipal PrincipalUser principalUser,
             @RequestPart MultipartFile file) {
         userService.updateProfileImg(principalUser.getUser(), file);
+        return ResponseEntity.ok().build();
+    }
+
+    @PutMapping("/user/profile/nickname")
+    public ResponseEntity<?> changeNickname(
+            @AuthenticationPrincipal PrincipalUser principalUser,
+            @RequestBody Map<String, String> requestBody) {
+        String nickname = requestBody.get("nickname");
+        userService.updateNickname(principalUser.getUser(), nickname);
         return ResponseEntity.ok().build();
     }
 }
