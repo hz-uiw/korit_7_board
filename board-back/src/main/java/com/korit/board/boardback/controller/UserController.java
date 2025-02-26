@@ -5,9 +5,8 @@ import com.korit.board.boardback.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("/api")
@@ -27,5 +26,11 @@ public class UserController {
 //        int userId = principalUser.getUser().getUserId();     // login 시 인증 토큰을 받기 때문에 이렇게 할 필요 X
 
         return ResponseEntity.ok().body(principalUser.getUser());
+    }
+
+    @PostMapping("/user/profile/img")
+    public ResponseEntity<?> changeProfileImg(@RequestPart MultipartFile file) {
+        System.out.println(file.getOriginalFilename());
+        return ResponseEntity.ok().body(null);
     }
 }
