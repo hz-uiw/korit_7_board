@@ -22,7 +22,7 @@ public class FileService {
         try {
             String originalFilename = file.getOriginalFilename();
             newFilename = UUID.randomUUID().toString().replaceAll("-", "") + "_" + originalFilename;
-            // UUID 사용 - 하이픈(-)을 제거해서 UUID + 파일이름으로 새 아이디 생성
+            // UUID 사용, 하이픈(-)을 제거해서 UUID + 파일이름으로 새 아이디 생성
             File newFilePath = new File(rootPath + "/" + path);
             if(!newFilePath.exists()) {
                 newFilePath.mkdirs();
