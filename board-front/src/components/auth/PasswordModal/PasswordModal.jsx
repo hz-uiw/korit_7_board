@@ -1,10 +1,36 @@
 /**@jsxImportSource @emotion/react */
 import * as s from './style';
-import React from 'react';
+import React, { useState } from 'react';
 import { CgPassword } from 'react-icons/cg';
 import { RiCloseCircleFill } from 'react-icons/ri';
+import { useUpdatePasswordMutation } from '../../../mutations/accountMutation';
+import Swal from 'sweetalert2';
 
 function PasswordModal({setOpen}) {
+    const passwordMutation = useUpdatePasswordMutation();
+    const [passwordValue, setPasswordValue] = useState({
+        newPassword: "",
+        confirmPassword: "",
+    });
+
+    const handlePasswordInputOnChange = (e) => {
+        setPasswordValue(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value,
+        }))
+    }
+
+    const handleSetButtonOnClick = async () => {
+        await passwordMutation.mutateAsync(passwordValue.newPassword);
+        Swal.fire({
+            titleText: "비밀번호 변경 완료",
+            icon: "success",
+            showConfirmButton: false,
+            timer: 1000,
+            position: "center",
+        });
+        setOpen(false);
+    }
 
     const handleCloseButtonOnClick = () => {
         setOpen(false);
@@ -22,13 +48,24 @@ function PasswordModal({setOpen}) {
                 <div>
                     <div css={s.inputGroup}>
                         <label>Enter a new password</label>
-                        <input type="password" />
+                            <input type="password" 
+                            name='newPassword' 
+                            value={handlePasswordInputOnChange.newPassword} 
+                            onChange={handlePasswordInputOnChange}
+                        />
                     </div>
                     <div css={s.inputGroup}>
                         <label>Confirm your new password</label>
-                        <input type="password" />
+                        <input type="password" 
+                            name='confirmPassword' 
+                            value={handlePasswordInputOnChange.confirmPassword} 
+                            onChange={handlePasswordInputOnChange}
+                        />
                     </div>
-                    <button css={s.setButton}>Set a password</button>
+                    <button css={s.setButton} 
+                        disabled={!passwordValue.newPassword || !passwordValue.confirmPassword}
+                        onClick={handleSetButtonOnClick}
+                    >Set a password</button>
                 </div>
             </div>
         </div>

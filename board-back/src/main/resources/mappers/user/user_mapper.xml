@@ -52,6 +52,15 @@
             user_id = #{userId}
     </update>
 
+    <update id="updatePasswordById">
+        update
+            user_tb
+        set
+            password = #{password}
+        where
+            user_id = #{userId}
+    </update>
+
     <select id="selectById" resultMap="userResultMap">
         select
             ut.user_id,

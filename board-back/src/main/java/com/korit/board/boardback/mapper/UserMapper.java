@@ -16,4 +16,9 @@ public interface UserMapper {
             @Param("userId") int userId,
             @Param("nickname") String nickname
     );
+
+    int updatePasswordById(
+            @Param("userId") int userId,
+            @Param("password") String password
+    );
 }
