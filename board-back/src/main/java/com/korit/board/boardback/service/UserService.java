@@ -9,6 +9,7 @@ import com.korit.board.boardback.exception.FieldError;
 import com.korit.board.boardback.repository.UserRepository;
 import com.korit.board.boardback.repository.UserRoleRepository;
 import com.korit.board.boardback.security.jwt.JwtUtil;
+import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,13 +34,16 @@ public class UserService {
     private UserRoleRepository userRoleRepository;
     @Autowired
     private FileService fileService;
+    @Autowired
+    private EmailService emailService;
+
 
     public boolean duplicatedByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public User join(ReqJoinDto reqJoinDto) {
+    public User join(ReqJoinDto reqJoinDto)  {
         if(duplicatedByUsername(reqJoinDto.getUsername())) {
             throw new DuplicatedValueException(List.of(FieldError.builder()
                             .field("username")
@@ -54,7 +58,7 @@ public class UserService {
                 .accountExpired(1)
                 .accountLocked(1)
                 .credentialsExpired(1)
-                .accountEnabled(1)
+                .accountEnabled(0)
                 .build();
         userRepository.save(user);
 
@@ -63,7 +67,11 @@ public class UserService {
                 .roleId(1)      // 원래는 role_tb 에서 select 로 찾아서 넣어야함
                 .build();
         userRoleRepository.save(userRole);
-
+        try {
+            emailService.sendAuthMail(reqJoinDto.getEmail(), reqJoinDto.getUsername());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return user;
     }
 

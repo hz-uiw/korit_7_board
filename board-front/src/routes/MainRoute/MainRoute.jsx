@@ -14,10 +14,10 @@ function MainRoute(props) {
 
     useEffect(() => {
         console.log(queryState);
-        if(queryState.stat === "error") {
+        if(queryState.status === "error") {
             navigate("/auth/login");
         }
-    }, [queryClient]); 
+    }, [queryState]); 
 
     return queryState.status === "success" &&
         <>

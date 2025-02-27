@@ -10,10 +10,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -52,7 +49,22 @@ public class AuthController {
 
     @PostMapping("/email")
     public ResponseEntity<?> sendAuthEmail(@RequestBody ReqAuthEmailDto dto) throws MessagingException {
-        emailService.sendAuthMail(dto.getEmail());
+        emailService.sendAuthMail(dto.getEmail(), dto.getUsername());
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/email")
+    public ResponseEntity<?> setAuthMail(
+            @RequestParam String username,
+            @RequestParam String token) {
+
+        String script = String.format("""
+            <script>
+                alert("%s");
+                window.close();
+            </script>
+        """, emailService.auth(username, token));
+
+        return ResponseEntity.ok().header("Content-Type", "text/html;charset=utf=8").body(script);
     }
 }
