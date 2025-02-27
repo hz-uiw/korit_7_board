@@ -1,15 +1,14 @@
 /**@jsxImportSource @emotion/react */
 import * as s from './style';
-import { basicButton, emptyButton } from '../../../styles/buttons';
+import React from 'react';
 import { FiChevronsLeft } from "react-icons/fi";
+import { basicButton, emptyButton } from '../../../styles/buttons';
 import { useRecoilState } from 'recoil';
 import { mainSidebarIsOpenState } from '../../../atoms/mainSidebar/mainSidebarAtom';
-import { LuLockKeyhole } from "react-icons/lu";
-import { useUserMeQuery } from '../../../queries/userQuery';
 import { useNavigate } from 'react-router-dom';
-import { BiLogOut } from 'react-icons/bi';
+import { BiLogOut } from "react-icons/bi";
+import { setTokenLocalStorage } from '../../../configs/axiosConfig';
 import { useQueryClient } from '@tanstack/react-query';
-
 
 function MainSidebar(props) {
     const navigate = useNavigate();
@@ -26,8 +25,8 @@ function MainSidebar(props) {
     }
 
     const handleLogoutButtonOnClick = async () => {
-        setTokenLocalStroage("AccessToken", null);
-        queryClient.removeQueries({queryKey: ["userMeQuery"]})
+        setTokenLocalStorage("AccessToken", null);
+        await queryClient.invalidateQueries({queryKey: ["userMeQuery"]});
         navigate("/auth/login");
     }
 
@@ -41,10 +40,7 @@ function MainSidebar(props) {
                                 <button css={emptyButton} onClick={handleAccountButtonOnClick}>
                                     <span css={s.authText}>
                                         <div css={s.profileImgBox}>
-                                        {
-                                            loginUser.isLoading ||
                                             <img src={`http://localhost:8080/image/user/profile/${loginUserData?.data.profileImg}`} alt="" />
-                                        }
                                         </div>
                                         {loginUserData?.data.nickname}
                                     </span>
@@ -56,8 +52,8 @@ function MainSidebar(props) {
                 </div>
                 <div>
                     <div css={s.groupLayout}>
-                        <button css={emptyButton}>
-                            <span css={s.authText} onClick={handleLogoutButtonOnClick}>
+                        <button css={emptyButton} onClick={handleLogoutButtonOnClick}>
+                            <span css={s.authText}>
                                 <BiLogOut /> 로그아웃
                             </span>
                         </button>

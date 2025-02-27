@@ -10,17 +10,17 @@ import { useQueryClient } from '@tanstack/react-query';
 function MainRoute(props) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+    const queryState = queryClient.getQueryState(["userMeQuery"]);
 
     useEffect(() => {
-        const queryData = queryClient.getQueryData(["userMeQuery"]);
-        if(!queryData) {
+        console.log(queryState);
+        if(queryState.stat === "error") {
             navigate("/auth/login");
         }
     }, [queryClient]); 
 
-    return (
+    return queryState.status === "success" &&
         <>
-            
             <MainSidebar />
             <MainContainer>
                 <Routes>
@@ -29,8 +29,7 @@ function MainRoute(props) {
                     <Route path="/*" element={<NotFoundPage/>}  />
                 </Routes>
             </MainContainer>
-        </>
-    );
+        </>;
 }
 
 export default MainRoute;

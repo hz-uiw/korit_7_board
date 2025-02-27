@@ -7,20 +7,18 @@ import MainRoute from "./routes/MainRoute/MainRoute"
 import { useUserMeQuery } from "./queries/userQuery"
 
 function App() {
-	const loginUser = useUserMeQuery();
+	useUserMeQuery();
+	// 한 번만 실행 => 캐싱 요청 한 번 처리
 
 	return (
 		<>
 			<Global styles={global} />
-			{
-				loginUser.isFetched &&
-				<MainLayout>
-					<Routes>
-						<Route path="/auth/*" element={<AuthRoute />} />
-						<Route path="/*" element={<MainRoute />} />
-					</Routes>
-				</MainLayout>
-			}
+			<MainLayout>
+				<Routes>
+					<Route path="/auth/*" element={<AuthRoute />} />
+					<Route path="/*" element={<MainRoute />} />
+				</Routes>
+			</MainLayout>
 		</>
 	)
 }

@@ -8,21 +8,21 @@ import { useQueryClient } from '@tanstack/react-query';
 function AuthRoute(props) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+    const queryState = queryClient.getQueryState(["userMeQuery"]);
 
     useEffect(() => {
-        const queryData = queryClient.getQueryData(["userMeQuery"]);
-        if(!!queryData) {
+        console.log(queryState);
+        if(queryState.status === "success") {
             navigate("/");
         }
     }, [queryClient]);
 
-    return (
+    return queryState.status === "error" &&
         <Routes>
             <Route path="/login" element={<LoginPage />} />
             <Route path="/join" element={<JoinPage />} />
             <Route path="/*" element={<NotFoundPage/>}  />
         </Routes>
-    );
 }
 
 export default AuthRoute;

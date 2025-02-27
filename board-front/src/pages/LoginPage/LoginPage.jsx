@@ -9,9 +9,9 @@ import { setTokenLocalStorage } from '../../configs/axiosConfig';
 import { useQueryClient } from '@tanstack/react-query';
 
 function LoginPage(props) {
-    const loginMutation = useLoginMutation();
     const navigate = useNavigate();
     const queryClient = useQueryClient();
+    const loginMutation = useLoginMutation();
 
     const [ searchParams, setSearchParams ] = useSearchParams();
     

@@ -55,7 +55,8 @@ public class UserController {
     @PutMapping("/user/profile/password")
     public ResponseEntity<?> changePassword(
             @AuthenticationPrincipal PrincipalUser principalUser,
-            @RequestBody Map<String, String> requestBody) {
+            @RequestBody Map<String, String> requestBody
+    ) {
         String password = requestBody.get("password");
         userService.updatePassword(principalUser.getUser(), password);
         return ResponseEntity.ok().build();
