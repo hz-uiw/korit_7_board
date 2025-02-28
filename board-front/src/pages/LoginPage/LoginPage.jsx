@@ -87,6 +87,10 @@ function LoginPage(props) {
             }
         }
     }
+
+    const handleOAuth2LoginOnClick = (e) => {
+        window.location.href = `http://localhost:8080/oauth2/authorization/${e.target.value}`;
+    }
     
 
     return (
@@ -99,19 +103,19 @@ function LoginPage(props) {
                 <main>
                     <div css={s.oauth2Group}>
                         <div css={s.groupBox}>
-                            <button css={s.oauth2Button}>
+                            <button css={s.oauth2Button} value={"google"} onClick={handleOAuth2LoginOnClick}>
                                 <div css={s.oauth2Icon}><SiGoogle /></div>
                                 <span css={s.oauth2Text}>Continue with Google</span>
                             </button>
                         </div>
                         <div css={s.groupBox}>
-                            <button css={s.oauth2Button}>
+                            <button css={s.oauth2Button} value={"naver"} onClick={handleOAuth2LoginOnClick}>
                                 <div css={s.oauth2Icon}><SiNaver /></div>
                                 <span css={s.oauth2Text}>Continue with Naver</span>
                             </button>
                         </div>
                         <div css={s.groupBox}>
-                            <button css={s.oauth2Button}>
+                            <button css={s.oauth2Button} >
                                 <div css={s.oauth2Icon}><SiKakao /></div>
                                 <span css={s.oauth2Text}>Continue with Kakao</span>
                             </button>
