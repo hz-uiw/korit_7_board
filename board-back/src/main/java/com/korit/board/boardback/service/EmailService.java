@@ -6,7 +6,6 @@ import com.korit.board.boardback.security.jwt.JwtUtil;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.scheduling.annotation.Async;
@@ -20,7 +19,7 @@ import java.util.Optional;
 @Service
 public class EmailService {
 
-//    @Value("${spring.mail.username}")
+//    @Value("${spring.mail.username}") // 아래와 같이 사용 가능
     private final String FROM_EMAIL = "kwonmc5.11@gmail.com";
 
     @Autowired(required = false)
