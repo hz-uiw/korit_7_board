@@ -3,7 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import * as s from './style';
 import { SiGoogle, SiKakao, SiNaver } from "react-icons/si";
 import { useState } from 'react';
-import { useLoginMutation } from '../../mutations/authMutation';
+import { useLoginMutation, useSendAuthMailMutation } from '../../mutations/authMutation';
 import Swal from 'sweetalert2';
 import { setTokenLocalStorage } from '../../configs/axiosConfig';
 import { useQueryClient } from '@tanstack/react-query';
@@ -12,6 +12,7 @@ function LoginPage(props) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const loginMutation = useLoginMutation();
+    const sendAuthMailMutation = useSendAuthMailMutation();
 
     const [ searchParams, setSearchParams ] = useSearchParams();
     
@@ -39,9 +40,8 @@ function LoginPage(props) {
                 title: '로그인 실패',
                 text: '사용자 정보를 입력해주세요!',
                 confirmButtonText: '확인',
-                confirmButtonColor: "#e22323"
+                confirmButtonColor: "#e22323",
             });
-            return;
         }
 
         try {
@@ -59,14 +59,35 @@ function LoginPage(props) {
             await queryClient.invalidateQueries({queryKey: ["userMeQuery"]});
             navigate("/");
         } catch(error) {
-            await Swal.fire({
-                title: '로그인 실패',
-                text: '사용자 정보를 다시 확인해주세요!',
-                confirmButtonText: '확인',
-                confirmButtonColor: "#e22323"
-            });
+            if(error.response.status === 401) {
+                const result = await Swal.fire({
+                    title: '계정 활성화',
+                    text: '계정을 활성화 하려면 등록하신 이메일을 통해 계정 인증을 하세요!\n 다시 메일 재전송이 필요하면 전송버튼을 클릭하세요',
+                    confirmButtonText: '전송',
+                    confirmButtonColor: "#2389e2",
+                    showCancelButton: true,
+                    cancelButtonText: '취소', 
+                    cancelButtonColor: '#999999', 
+                });
+                if(result.isConfirmed) {
+                    await sendAuthMailMutation.mutateAsync(inputValue.username);
+                    await Swal.fire({
+                        title: '메일 전송 완료',
+                        confirmButtonText: '확인',
+                        confirmButtonColor: "#2389e2",
+                    });
+                }
+            } else {
+                await Swal.fire({
+                    title: '로그인 실패',
+                    text: '사용자 정보를 입력해주세요!',
+                    confirmButtonText: '확인',
+                    confirmButtonColor: "#e22323",
+                });
+            }
         }
     }
+    
 
     return (
         <div css={s.layout}>

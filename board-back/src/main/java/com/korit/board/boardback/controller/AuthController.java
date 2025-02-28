@@ -4,6 +4,7 @@ import com.korit.board.boardback.dto.request.ReqAuthEmailDto;
 import com.korit.board.boardback.dto.request.ReqJoinDto;
 import com.korit.board.boardback.dto.request.ReqLoginDto;
 import com.korit.board.boardback.dto.response.RespTokenDto;
+import com.korit.board.boardback.entity.User;
 import com.korit.board.boardback.service.EmailService;
 import com.korit.board.boardback.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -48,8 +49,9 @@ public class AuthController {
     }
 
     @PostMapping("/email")
-    public ResponseEntity<?> sendAuthEmail(@RequestBody ReqAuthEmailDto dto) throws MessagingException {
-        emailService.sendAuthMail(dto.getEmail(), dto.getUsername());
+    public ResponseEntity<?> sendAuthEmail(@RequestBody ReqAuthEmailDto dto) throws Exception {
+        User user = userService.getUserByUsername(dto.getUsername());
+        emailService.sendAuthMail(user.getEmail(), dto.getUsername());
         return ResponseEntity.ok().build();
     }
 
