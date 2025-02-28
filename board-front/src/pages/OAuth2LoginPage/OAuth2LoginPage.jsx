@@ -14,8 +14,8 @@ function OAuth2LoginPage(props) {
         await queryClient.invalidateQueries({queryKey: ["userMeQuery"]});
         navigate("/");
     }
-        
-    useEffect(async() => {
+
+    useEffect(() => {
         setAccessToken();
     }, []);
 
