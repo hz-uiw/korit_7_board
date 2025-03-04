@@ -27,7 +27,7 @@ function MainRoute(props) {
                 <Routes>
                     <Route path="/account/setting" element={<AccountPage />} />
                     {/* 다른 요청은 여기에 넣어야 됨 */}
-                    <Route path="/board/write" element={<BoardWritePage />} />
+                    <Route path="/board/write/:categoryName" element={<BoardWritePage />} />
                     <Route path="/*" element={<NotFoundPage/>}  />
                 </Routes>
             </MainContainer>

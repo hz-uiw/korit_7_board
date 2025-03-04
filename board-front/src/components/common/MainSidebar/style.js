@@ -5,7 +5,7 @@ export const layout = (isOpen) => css`
     transition: all 0.5s ease-in-out;
     box-sizing: border-box;
 
-    width: ${isOpen ? "30rem" : "0"};
+    width: ${isOpen ? "30rem" : "0rem"};
     height: 100%;
 
     background-color: #f8f8f5;
@@ -21,9 +21,10 @@ export const container = css`
     padding: 0.6rem;
     width: 30rem;
     height: 100%;
-    `;
+`;
 
 export const groupLayout = css`
+    position: relative;
     box-sizing: border-box;
     border-radius: 0.7rem;
     padding: 0.6rem;
@@ -67,7 +68,7 @@ export const authText = css`
     display: inline-flex;
     align-items: center;
     width: 20rem;
-    
+
     & > svg {
         margin-right: 0.5rem;
     }
@@ -78,4 +79,16 @@ export const authText = css`
         white-space: nowrap;
         text-align: start;
     }
+`;
+
+export const categoryText = css`
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+`;
+
+export const writeButton = css`
+    position: absolute;
+    right: 0.6rem;
+    top: 0.4rem;
 `;
