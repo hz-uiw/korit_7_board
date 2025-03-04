@@ -29,7 +29,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(DisabledException.class)
     public ResponseEntity<?> disabledException(DisabledException e) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage()); // 401 응답
     }
 
 }

@@ -3,10 +3,9 @@ import { css } from "@emotion/react";
 export const modalTop = css`
     display: flex;
     justify-content: flex-end;
-    font-size: 2rem;
+    font-size: 1.8rem;
     & > div {
         cursor: pointer;
-
         & > svg {
             fill: #bbbbbb;
             &:hover {
@@ -25,7 +24,7 @@ export const header = css`
 `;
 
 export const headerIcon = css`
-    font-size: 3rem;
+    font-size: 4rem;
     & path {
         fill: #999999;
     }
@@ -64,9 +63,10 @@ export const inputGroup = css`
 
 export const setButton = css`
     box-sizing: border-box;
+    margin-top: 0.5rem;
     border: none;
     border-radius: 0.5rem;
-    padding: 0.8rem 2rem;
+    padding: 1rem 2rem;
     width: 100%;
     background-color: #2383e2;
     color: #ffffff;

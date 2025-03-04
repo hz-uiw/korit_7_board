@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class BoardCategory {
+public class BoardCategoryAndBoardCount {
     private int boardCategoryId;
     private String boardCategoryName;
+    private int boardCount;
 }

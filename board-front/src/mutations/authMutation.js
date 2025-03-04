@@ -14,7 +14,7 @@ export const useLoginMutation = () => useMutation({
 });
 
 export const useSendAuthMailMutation = () => useMutation({
-    mutationKey: ["useSendAuthMailMutation"],
+    mutationKey: "useSendAuthMailMutation",
     mutationFn: sendAuthMailApi,
     retry: 0,
-})
+});

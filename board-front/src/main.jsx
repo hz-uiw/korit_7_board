@@ -26,5 +26,5 @@ createRoot(document.getElementById('root')).render(
         <App />
       </BrowserRouter>
     </QueryClientProvider>
-  </RecoilRoot>
+  </RecoilRoot>,
 )

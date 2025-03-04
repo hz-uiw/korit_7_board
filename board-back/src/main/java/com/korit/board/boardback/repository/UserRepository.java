@@ -27,7 +27,7 @@ public class UserRepository {
     }
 
     public void updateProfileImg(int userId, String profileImg) {
-        userMapper.updateProfileImg(userId, profileImg);
+        userMapper.updateProfileImgById(userId, profileImg);
     }
 
     public void updateNickname(int userId, String nickname) {
@@ -41,7 +41,6 @@ public class UserRepository {
     public void updateAccountEnabled(String username) {
         userMapper.updateAccountEnabledByUsername(username);
     }
-
     public void updateEmail(int userId, String email) {
         userMapper.updateEmailById(userId, email);
     }

@@ -34,9 +34,8 @@
         <collection property="userRoles" javaType="java.util.Set" resultMap="userRoleResultMap" />
     </resultMap>
 
-    <update id="updateProfileImg">
-        update
-            user_tb
+    <update id="updateProfileImgById">
+        update user_tb
         set
             profile_img = #{profileImg}
         where
@@ -44,8 +43,7 @@
     </update>
 
     <update id="updateNicknameById">
-        update
-            user_tb
+        update user_tb
         set
             nickname = #{nickname}
         where
@@ -53,8 +51,7 @@
     </update>
 
     <update id="updatePasswordById">
-        update
-            user_tb
+        update user_tb
         set
             password = #{password}
         where
@@ -62,16 +59,15 @@
     </update>
 
     <update id="updateAccountEnabledByUsername">
-        update
-            user_tb
+        update user_tb
         set
             account_enabled = 1
         where
             username = #{username}
     </update>
+
     <update id="updateEmailById">
-        update
-            user_tb
+        update user_tb
         set
             email = #{email}
         where
@@ -164,7 +160,7 @@
             rt.role_name,
             rt.role_name_kor
         from
-            user_tb ut
+        user_tb ut
             left outer join user_role_tb urt on(urt.user_id = ut.user_id)
             left outer join role_tb rt on(rt.role_id = urt.role_id)
         where

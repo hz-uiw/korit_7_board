@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation } from "@tanstack/react-query";
 import { sendVerifyEmailApi, updateEmailApi, updateNicknameApi, updatePasswordApi, updateProfileImgApi } from "../apis/userApi";
 
 export const useUpdateProfileImgMutation = () => useMutation({
@@ -28,4 +28,5 @@ export const useSendVerifyEmailMutation = () => useMutation({
 export const useUpdateEmailMutation = () => useMutation({
     mutationKey: ["useUpdateEmailMutation"],
     mutationFn: updateEmailApi,
-});
+    retry: 0,
+})

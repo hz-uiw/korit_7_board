@@ -14,7 +14,7 @@ export const layout = css`
         font-size: 3rem;
         cursor: default;
     }
-    
+
     & > p {
         font-size: 2rem;
         cursor: default;

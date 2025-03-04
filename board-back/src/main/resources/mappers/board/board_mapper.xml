@@ -6,6 +6,7 @@
 
     <insert id="insertBoard" keyProperty="boardId" useGeneratedKeys="true">
         insert into board_tb
-        values(default, #{categoryId}, #{userId}, #{title}, #{content}, 0, now(), now())
+        values
+            (default, #{boardCategoryId}, #{userId}, #{title}, #{content}, 0, now(), now())
     </insert>
 </mapper>

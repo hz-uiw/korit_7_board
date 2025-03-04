@@ -17,9 +17,7 @@ export const quillEditor = css`
         height: 85%;
         border: none;
     }
-
 `;
-
 
 export const quillTop = css`
     display: flex;
@@ -36,6 +34,8 @@ export const quillTop = css`
 `;
 
 export const saveButton = css`
+    display: flex;
+    align-items: center;
     box-sizing: border-box;
     margin-right: 1rem;
     border: 0.1rem solid #dbdbdb;
@@ -48,5 +48,11 @@ export const saveButton = css`
     }
     &:active {
         background-color: #dddddd;
+    }
+
+    & > svg {
+        margin-right: 0.5rem;
+        width: 100%;
+        height: 100%;
     }
 `;

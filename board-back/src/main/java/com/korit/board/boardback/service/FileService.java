@@ -18,19 +18,18 @@ public class FileService {
             return null;
         }
 
-        String newFilename = null;
+        String newFilename = null;  // 사용자들끼리의 이미지 파일 이름이 겹칠 수 있으므로 새로운 이름을 부여해야함
         try {
-            String originalFilename = file.getOriginalFilename();
-            newFilename = UUID.randomUUID().toString().replaceAll("-", "") + "_" + originalFilename;
-            // UUID 사용, 하이픈(-)을 제거해서 UUID + 파일이름으로 새 아이디 생성
+            String originFilename = file.getOriginalFilename();
+            newFilename = UUID.randomUUID().toString().replaceAll("-", "") + "_" + originFilename; // UUID 는 유일한 키값을 제공해줌 (일반 랜덤 함수도 유일한 키값이 아님)
             File newFilePath = new File(rootPath + "/" + path);
             if(!newFilePath.exists()) {
-                newFilePath.mkdirs();
+                newFilePath.mkdirs(); // mkdirs: 중간에 경로가 비었으면 전체 경로를 모두 만들어줌, mkdir: 중간에 경로가 비어있으면 경로 만들어주지 못함
             }
-            File newFile = new File(rootPath + "/" + path + "/" + newFilename);
+            File newFile = new File(rootPath + "/" + path + "/" + newFilename); // 경로 설정(path : 이미지 파일 구분(게시글 이미지인지, 프로필 이미지인지))
             file.transferTo(newFile);
         } catch (Exception e) {
-            e.getStackTrace();
+            e.printStackTrace();
         }
         return newFilename;
     }
