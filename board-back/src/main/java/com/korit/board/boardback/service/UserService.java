@@ -124,4 +124,9 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(password);
         userRepository.updatePassword(user.getUserId(), encodedPassword);
     }
+
+    @Transactional(rollbackFor = Exception.class)
+    public void updateEmail(User user, String email) throws MessagingException {
+        userRepository.updateEmail((user.getUserId()), email);
+    }
 }

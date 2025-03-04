@@ -6,6 +6,7 @@ import AccountPage from '../../pages/AccountPage/AccountPage';
 import { useUserMeQuery } from '../../queries/userQuery';
 import NotFoundPage from '../../pages/NotFoundPage/NotFoundPage';
 import { useQueryClient } from '@tanstack/react-query';
+import BoardWritePage from '../../pages/BoardWritePage/BoardWritePage';
 
 function MainRoute(props) {
     const navigate = useNavigate();
@@ -26,6 +27,7 @@ function MainRoute(props) {
                 <Routes>
                     <Route path="/account/setting" element={<AccountPage />} />
                     {/* 다른 요청은 여기에 넣어야 됨 */}
+                    <Route path="/board/write" element={<BoardWritePage />} />
                     <Route path="/*" element={<NotFoundPage/>}  />
                 </Routes>
             </MainContainer>
