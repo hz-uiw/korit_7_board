@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 export const modalTop = css`
     display: flex;
     justify-content: flex-end;
-    font-size: 1.8rem;
+    font-size: 2rem;
     & > div {
         cursor: pointer;
         & > svg {
@@ -24,7 +24,7 @@ export const header = css`
 `;
 
 export const headerIcon = css`
-    font-size: 4rem;
+    font-size: 3rem;
     & path {
         fill: #999999;
     }
@@ -128,7 +128,7 @@ export const setButton = css`
     margin-top: 0.5rem;
     border: none;
     border-radius: 0.5rem;
-    padding: 1rem 2rem;
+    padding: 0.8rem 2rem;
     width: 100%;
     background-color: #2383e2;
     color: #ffffff;

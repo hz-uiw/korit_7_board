@@ -50,17 +50,16 @@ public class AuthController {
 
     @PostMapping("/email")
     public ResponseEntity<?> sendAuthEmail(@RequestBody ReqAuthEmailDto dto) throws Exception {
-        User user = userService.getUserByUsername(dto.getUsername())       ;
-        emailService.sentAuthMail(user.getEmail(), dto.getUsername());
+        User user = userService.getUserByUsername(dto.getUsername());
+        emailService.sendAuthMail(user.getEmail(), dto.getUsername());
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("/email")
-    public ResponseEntity<?> setAuthEmail(
+    public ResponseEntity<?> setAuthMail(
             @RequestParam String username,
-            @RequestParam String token
-    ) {
-        // window.close() : 인증 절차 모두 마치고 나면(전송된 메일의 인증하기 버튼 누르면) 창이 뜸 >> 이 창을 닫아야함
+            @RequestParam String token) {
+
         String script = String.format("""
             <script>
                 alert("%s");
@@ -68,6 +67,6 @@ public class AuthController {
             </script>
         """, emailService.auth(username, token));
 
-        return ResponseEntity.ok().header("Content-Type", "text/html;charset=utf-8").body(script);
+        return ResponseEntity.ok().header("Content-Type", "text/html;charset=UTF-8").body(script);
     }
 }

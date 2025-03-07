@@ -18,11 +18,11 @@ import java.util.Date;
 @Component
 public class CustomOAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
-    @Value(value = "${react.server.protocol}")
+    @Value("${react.server.protocol}")
     private String protocol;
-    @Value(value = "${react.server.host}")
+    @Value("${react.server.host}")
     private String host;
-    @Value(value = "${react.server.port}")
+    @Value("${react.server.port}")
     private int port;
 
     @Autowired

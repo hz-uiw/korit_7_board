@@ -11,16 +11,17 @@ public interface UserMapper {
     User selectByEmail(String email);
 
     int insert(User user);
-
-    int updateProfileImgById(
+    int updateProfileImg(
             @Param("userId") int userId,
             @Param("profileImg") String profileImg);
     int updateNicknameById(
             @Param("userId") int userId,
             @Param("nickname") String nickname);
+
     int updatePasswordById(
             @Param("userId") int userId,
             @Param("password") String password);
+
     int updateAccountEnabledByUsername(
             @Param("username") String username);
     int updateEmailById(

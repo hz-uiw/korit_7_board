@@ -40,9 +40,8 @@ function LoginPage(props) {
                 title: '로그인 실패',
                 text: '사용자 정보를 입력해주세요!',
                 confirmButtonText: '확인',
-                confirmButtonColor: "#e22323"
+                confirmButtonColor: "#e22323",
             });
-            return;
         }
 
         try {
@@ -57,44 +56,42 @@ function LoginPage(props) {
                 position: "center",
                 showConfirmButton: false,
             });
-            await queryClient.invalidateQueries({queryKey: ["userMeQuery"]}); // 캐시를 삭제하는 것이 아닌 만료를 시켜 fresh 하지 않은 상태로 바꿔줌(invalidate)
+            await queryClient.invalidateQueries({queryKey: ["userMeQuery"]});
             navigate("/");
-            // window.location.href("/");
-            // navigate("/") 를 사용하면 위에서 이미 queryClient의 데이터를 지웠기 때문에 home 화면으로 갔다가 다시 로그인 창으로 오게 됨
-            // 하지만 await 을 걸어주어 동기로 동작하게 되면 navigate 가 비동기이기 때문에 home 화면으로 갈 수 있음
-        } catch (error) {
+        } catch(error) {
             if(error.response.status === 401) {
                 const result = await Swal.fire({
                     title: '계정 활성화',
-                    text: '계정 활성화를 하려면 등록하신 메일을 통해 계정 인증을 하세요. 다시 메일 전송이 필요하면 전송버튼을 클릭하세요.',
+                    text: '계정을 활성화 하려면 등록하신 이메일을 통해 계정 인증을 하세요!\n 다시 메일 재전송이 필요하면 전송버튼을 클릭하세요',
                     confirmButtonText: '전송',
                     confirmButtonColor: "#2389e2",
                     showCancelButton: true,
-                    cancelButtonText: '취소',
-                    cancelButtonColor: "#999999"
+                    cancelButtonText: '취소', 
+                    cancelButtonColor: '#999999', 
                 });
                 if(result.isConfirmed) {
                     await sendAuthMailMutation.mutateAsync(inputValue.username);
-                    await Swal.fire({       // function fire<T = any>(options: SweetAlertOptions): Promise<SweetAlertResult<Awaited<T>>> >> Promise 이기 때문에 await 걸어줘야함
+                    await Swal.fire({
                         title: '메일 전송 완료',
                         confirmButtonText: '확인',
-                        confirmButtonColor: "#2389e2"
+                        confirmButtonColor: "#2389e2",
                     });
-                };
+                }
             } else {
                 await Swal.fire({
                     title: '로그인 실패',
-                    text: '사용자 정보를 다시 확인해주세요!',
+                    text: '사용자 정보를 입력해주세요!',
                     confirmButtonText: '확인',
-                    confirmButtonColor: "#e22323"
+                    confirmButtonColor: "#e22323",
                 });
-            };
+            }
         }
     }
 
     const handleOAuth2LoginOnClick = (provider) => {
-        window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`
+        window.location.href = `http://localhost:8080/oauth2/authorization/${provider}`;
     }
+    
 
     return (
         <div css={s.layout}>
@@ -118,7 +115,7 @@ function LoginPage(props) {
                             </button>
                         </div>
                         <div css={s.groupBox}>
-                            <button css={s.oauth2Button}>
+                            <button css={s.oauth2Button} >
                                 <div css={s.oauth2Icon}><SiKakao /></div>
                                 <span css={s.oauth2Text}>Continue with Kakao</span>
                             </button>

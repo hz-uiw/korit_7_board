@@ -9,11 +9,11 @@ import java.time.LocalDateTime;
 
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Board {
     private int boardId;
-    private int boardCategoryId;
+    private int categoryId;
     private int userId;
     private String title;
     private String content;

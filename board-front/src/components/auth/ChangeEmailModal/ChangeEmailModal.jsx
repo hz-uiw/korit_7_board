@@ -1,8 +1,8 @@
 /**@jsxImportSource @emotion/react */
 import * as s from './style';
+import React, { useEffect, useState } from 'react';
 import { RiCloseCircleFill } from "react-icons/ri";
 import { CgMail } from "react-icons/cg";
-import { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
 import { useSendVerifyEmailMutation, useUpdateEmailMutation } from '../../../mutations/accountMutation';
 import { useQueryClient } from '@tanstack/react-query';
@@ -11,11 +11,10 @@ function ChangeEmailModal({ setOpen }) {
     const queryClient = useQueryClient();
     const verifyEmailMutation = useSendVerifyEmailMutation();
     const updateEmailMutation = useUpdateEmailMutation();
-
-    const [emailValue, setEmailValue] = useState("");
-    const [ time, setTime ] = useState(60 * 5); 
+    const [ emailValue, setEmailValue ] = useState("");
+    const [ time, setTime ] = useState(60 * 5);
     const [ isSend, setSend ] = useState(false);
-    const [ verifyInputValue, setVerifyInputValue ] = useState({
+    const [verifyInputValue, setVerifyInputValue] = useState({
         first: "",
         second: "",
         third: "",
@@ -23,8 +22,8 @@ function ChangeEmailModal({ setOpen }) {
         fifth: "",
         sixth: "",
     });
-    const [ verifyCode, setVerifyCode ] = useState("");
-    
+    const [verifyCode, setVerifyCode] = useState("");
+
     useEffect(() => {
         const timer = setInterval(() => {
             setTime(prev => prev > 0 ? prev - 1 : 0);
@@ -33,24 +32,24 @@ function ChangeEmailModal({ setOpen }) {
             clearInterval(timer);
         }
     }, [isSend]);
-    
+
     useEffect(() => {
-        if (time === 0) {
+        if(time === 0) {
             Swal.fire({
                 showConfirmButton: true,
                 confirmButtonText: "확인",
                 titleText: "인증 시간이 만료되었습니다.",
             }).then(() => {
-                setOpen(false)
+                setOpen(false);
             })
         }
-    }, [time])
+    }, [time]);
 
     const handleEmailInputOnChange = (e) => {
         setEmailValue(e.target.value);
     }
 
-    const handleSendMailButtonOnClick = async () => {
+    const handleSendMailOnClick = async () => {
         setTime(60 * 5);
         setSend(true);
         const response = await verifyEmailMutation.mutateAsync(emailValue);
@@ -66,20 +65,20 @@ function ChangeEmailModal({ setOpen }) {
                 }
             }
             return {
-                ...prev,
+                ...prev
             }
         });
     }
 
     const handleSetButtonOnClick = async () => {
-        const inputCode =
+        const inputCode = 
             verifyInputValue.first
             + verifyInputValue.second
             + verifyInputValue.third
             + verifyInputValue.fourth
             + verifyInputValue.fifth
             + verifyInputValue.sixth;
-        
+
         if(verifyCode.toString() !== inputCode) {
             await Swal.fire({
                 titleText: "인증번호가 일치하지 않습니다.",
@@ -89,17 +88,17 @@ function ChangeEmailModal({ setOpen }) {
             return;
         }
         await updateEmailMutation.mutateAsync(emailValue);
-        await Swal.fire({
-            titleText: "이메일 변경 완료.",
+        Swal.fire({
+            titleText: "이메일 변경 완료",
             confirmButtonText: "확인",
         });
-        await queryClient.invalidateQueries({queryKey: ["userMeQuery"]});
+        await queryClient.invalidateQueries({queryKey: ["useMeQuery"]});
         setOpen(false);
     }
 
     const handleCloseButtonOnClick = () => {
         setOpen(false);
-    }
+    } 
 
     return (
         <div>
@@ -115,37 +114,38 @@ function ChangeEmailModal({ setOpen }) {
                 <div css={s.inputGroup}>
                     <label>Enter a new email</label>
                     <div css={s.emailInputAndSendButton}>
-                        <input type="email" name='newEmail'
+                        <input type="email" name='newEmail' 
                             disabled={isSend}
-                            value={emailValue}
+                            value={emailValue} 
                             onChange={handleEmailInputOnChange} />
                         {
                             isSend
-                            ? // padStart(2, '0') >> 2자리 글자, 빈자리에는 0 채우기 >> 5분 -> 05분
-                                <span>{Math.floor(time / 60).toString().padStart(2, '0')}:{(time % 60).toString().padStart(2, '0')}</span> 
+                            ? 
+                            <span>{Math.floor(time / 60).toString().padStart(2, '0')}:{(time % 60).toString().padStart(2, '0')}</span>
+                            // padStart: 2자리로 표시, 비어있는 부분은 0으로 표기
                             :
-                            <button onClick={handleSendMailButtonOnClick} disabled={!emailValue}>전송</button>
+                            <button onClick={handleSendMailOnClick}>전송</button>
                         }
                     </div>
-                </div>
-                {
-                    isSend &&
-                    <div css={s.inputGroup}>
-                        <div css={s.verifyInput}>
-                            <input type="number" name='first' value={verifyInputValue.first} onChange={handleVerifyInputOnChange} />
-                            <input type="number" name='second' value={verifyInputValue.second} onChange={handleVerifyInputOnChange} />
-                            <input type="number" name='third' value={verifyInputValue.third} onChange={handleVerifyInputOnChange} />
-                            <input type="number" name='fourth' value={verifyInputValue.fourth} onChange={handleVerifyInputOnChange} />
-                            <input type="number" name='fifth' value={verifyInputValue.fifth} onChange={handleVerifyInputOnChange} />
-                            <input type="number" name='sixth' value={verifyInputValue.sixth} onChange={handleVerifyInputOnChange} />
+                    {
+                        isSend &&
+                        <div css={s.inputGroup}>
+                            <div css={s.verifyInput}>
+                                <input type="number" value={verifyInputValue.first} name='first' onChange={handleVerifyInputOnChange}/>
+                                <input type="number" value={verifyInputValue.second} name='second' onChange={handleVerifyInputOnChange}/>
+                                <input type="number" value={verifyInputValue.third} name='third' onChange={handleVerifyInputOnChange}/>
+                                <input type="number" value={verifyInputValue.fourth} name='fourth' onChange={handleVerifyInputOnChange}/>
+                                <input type="number" value={verifyInputValue.fifth} name='fifth' onChange={handleVerifyInputOnChange}/>
+                                <input type="number" value={verifyInputValue.sixth} name='sixth' onChange={handleVerifyInputOnChange}/>
+                            </div>
                         </div>
-                    </div>
-                }
-                <button
-                    css={s.setButton}
+                    }
+                </div>
+                <button 
+                    css={s.setButton} 
                     disabled={!emailValue || Object.values(verifyInputValue).includes("")}
                     onClick={handleSetButtonOnClick}
-                >Set a email address</button>
+                >Set a eamil address</button>
             </div>
         </div>
     );

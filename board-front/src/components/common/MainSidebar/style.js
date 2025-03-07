@@ -5,7 +5,7 @@ export const layout = (isOpen) => css`
     transition: all 0.5s ease-in-out;
     box-sizing: border-box;
 
-    width: ${isOpen ? "30rem" : "0"};
+    width: ${isOpen ? "30rem" : "0rem"};
     height: 100%;
 
     background-color: #f8f8f5;
@@ -21,7 +21,7 @@ export const container = css`
     padding: 0.6rem;
     width: 30rem;
     height: 100%;
-    `;
+`;
 
 export const groupLayout = css`
     position: relative;
@@ -77,7 +77,7 @@ export const authText = css`
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        text-align: center;
+        text-align: start;
     }
 `;
 
@@ -91,24 +91,4 @@ export const writeButton = css`
     position: absolute;
     right: 0.6rem;
     top: 0.4rem;
-`;
-
-export const categoryListContainer = css`
-    flex-grow: 1;
-    overflow-y: auto;
-`;
-
-export const categoryItem = css`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-
-    & > button:nth-of-type(2) {
-        opacity: 0; // 투명도 >> hover 상태에서만 해당 버튼이 보이도록 설정
-    }
-
-    &:hover > button:nth-of-type(2) {
-        opacity: 1;
-    }
 `;

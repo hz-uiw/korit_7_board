@@ -1,6 +1,7 @@
 /**@jsxImportSource @emotion/react */
-import * as s from './style';
 import { BiError } from 'react-icons/bi';
+import * as s from './style';
+import React from 'react';
 
 function NotFoundPage(props) {
     return (

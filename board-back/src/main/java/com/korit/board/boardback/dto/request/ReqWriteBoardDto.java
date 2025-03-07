@@ -4,6 +4,6 @@ import lombok.Data;
 
 @Data
 public class ReqWriteBoardDto {
-    private String title;
-    private String content;
+    String title;
+    String content;
 }

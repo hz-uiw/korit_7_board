@@ -9,6 +9,7 @@ import com.korit.board.boardback.exception.FieldError;
 import com.korit.board.boardback.repository.UserRepository;
 import com.korit.board.boardback.repository.UserRoleRepository;
 import com.korit.board.boardback.security.jwt.JwtUtil;
+import jakarta.mail.MessagingException;
 import org.apache.ibatis.javassist.NotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -39,16 +40,18 @@ public class UserService {
     private EmailService emailService;
 
     public User getUserByUsername(String username) throws Exception {
-        return userRepository.findByUsername(username)
+        return userRepository
+                .findByUsername(username)
                 .orElseThrow(() -> new NotFoundException("사용자를 찾지 못했습니다."));
     }
+
 
     public boolean duplicatedByUsername(String username) {
         return userRepository.findByUsername(username).isPresent();
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public User join(ReqJoinDto reqJoinDto) {
+    public User join(ReqJoinDto reqJoinDto)  {
         if(duplicatedByUsername(reqJoinDto.getUsername())) {
             throw new DuplicatedValueException(List.of(FieldError.builder()
                             .field("username")
@@ -72,9 +75,8 @@ public class UserService {
                 .roleId(1)      // 원래는 role_tb 에서 select 로 찾아서 넣어야함
                 .build();
         userRoleRepository.save(userRole);
-
-        try { // 계정 생성하면 인증 메일 보내주기! 근데 메일이 전송 안됐다고 회원가입 실패하면 안되니까, 메서드에 throws 로 예외 처리하지 않고 try-catch 사용!
-            emailService.sentAuthMail(reqJoinDto.getEmail(), reqJoinDto.getUsername());
+        try {
+            emailService.sendAuthMail(reqJoinDto.getEmail(), reqJoinDto.getUsername());
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -106,11 +108,9 @@ public class UserService {
     @Transactional(rollbackFor = Exception.class)
     public void updateProfileImg(User user, MultipartFile file) {
         final String PROFILE_IMG_FILE_PATH = "/upload/user/profile";
-        String saveFileName = fileService.saveFile(PROFILE_IMG_FILE_PATH, file);
-        userRepository.updateProfileImg(user.getUserId(), saveFileName);
-        if(user.getProfileImg() == null) {
-            return;
-        }
+        String savedFileName = fileService.saveFile(PROFILE_IMG_FILE_PATH, file);
+        userRepository.updateProfileImg(user.getUserId(), savedFileName);
+        if(user.getProfileImg() == null) {return;}
         fileService.deleteFile(PROFILE_IMG_FILE_PATH + "/" + user.getProfileImg());
     }
 
@@ -121,12 +121,12 @@ public class UserService {
 
     @Transactional(rollbackFor = Exception.class)
     public void updatePassword(User user, String password) {
-        String encodedPassword = passwordEncoder.encode(password);  // password 는 encoding 이 필요함
+        String encodedPassword = passwordEncoder.encode(password);
         userRepository.updatePassword(user.getUserId(), encodedPassword);
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void updateEmail(User user, String email) {
-        userRepository.updateEmail(user.getUserId(), email);
+    public void updateEmail(User user, String email) throws MessagingException {
+        userRepository.updateEmail((user.getUserId()), email);
     }
 }

@@ -107,7 +107,8 @@ export const borderButton = css`
     &:hover {
         background-color: #fafafa;
     }
-    &:active {
+
+    &:active{
         background-color: #eeeeee;
     }
 `;

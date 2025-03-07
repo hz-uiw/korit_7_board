@@ -33,18 +33,21 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         String oauth2Name = null;
         String oauth2Provider = userRequest.getClientRegistration().getRegistrationId();
         Map<String, Object> attributes = getDefaultOAuth2User(userRequest).getAttributes();
-        if(oauth2Provider.equalsIgnoreCase("naver")) {
+
+        if(oauth2Provider.equalsIgnoreCase("naver")) {    // 대소문자 구분하지 말고 일치하는지 확인
             attributes = (Map<String, Object>) attributes.get("response");
             oauth2Name = (String) attributes.get("id");
             email = (String) attributes.get("email");
         }
+
+
         if(oauth2Provider.equalsIgnoreCase("google")) {
             oauth2Name = (String) attributes.get("sub");
             email = (String) attributes.get("email");
         }
-        String username = oauth2Provider + "_" + oauth2Name;
 
-        final String finalEmail = email;
+        final String username = oauth2Provider + "_" + oauth2Name;
+        final String finalEmail = email;    // 람다에서 null 값은 못쓰므로 final에 변수에 email 대입
         final String finalOauth2Name = oauth2Name;
 
         User user = userRepository
@@ -79,6 +82,5 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private OAuth2User getDefaultOAuth2User(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         return defaultOAuth2UserService.loadUser(userRequest);
-
     }
 }
