@@ -133,6 +133,7 @@ export const boardCounts = css`
             position: absolute;
             transform: translateX(-50%);
             left: 50%;
+            z-index: 2;
             border-radius: 0.5rem;
             padding: 0.3rem 0 0.5rem;
             background-color: #fafafa;
@@ -144,8 +145,64 @@ export const boardCounts = css`
 
 export const boardWriter = css`
     display: flex;
+    align-items: center;
+
+    & > div {
+        box-sizing: border-box;
+        margin-right: 1rem;
+        border: 0.1rem solid #dbdbdb;
+        border-radius: 50%;
+        width: 2.2rem;
+        height: 2.2rem;
+        overflow: hidden;
+
+        & > img {
+            width: 100%;
+        }
+    }
+
+    & > span {
+        display: block;
+        width: 70%;
+        padding-right: 1rem;
+        margin-bottom: 0.1rem;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
 `;
 
 export const footer = css`
     padding: 1rem;
+`;
+
+export const pageNumbers = css`
+    display: flex;
+    width: 25rem;
+
+    & > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-sizing: border-box;
+        margin-right: 0.5rem;
+        border: 0.1rem solid #dbdbdb;
+        border-radius: 0.5rem;
+        width: 2.5rem;
+        height: 2.5rem;
+        font-weight: 600;
+        font-size: 1.2rem;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #fafafa;
+        }
+
+        & > span {
+            margin-bottom: 0.1rem;
+        }
+    }
+`;
+export const pageNum = (isSelect) => css`
+    background-color: ${isSelect ? "#eeeeee" : "#ffffff"};
 `;

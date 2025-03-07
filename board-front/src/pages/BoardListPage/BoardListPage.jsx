@@ -8,9 +8,16 @@ import { GrView } from 'react-icons/gr';
 import { FcLike } from 'react-icons/fc';
 import { useRecoilValue } from 'recoil';
 import { mainSidebarIsOpenState } from '../../atoms/mainSidebar/mainSidebarAtom';
+import { GoChevronLeft, GoChevronRight } from 'react-icons/go';
+import { useSearchParams } from 'react-router-dom';
+import { useGetSearchBoardList } from '../../queries/boardQuery';
 
 function BoardListPage(props) {
-    const isSidebarOpen = useRecoilValue(mainSidebarIsOpenState);
+    const [searchParams, setSearchParam] = useSearchParams();   
+    const page = parseInt(searchParams.get("page") || "1");
+    const order = searchParams.get("order") || "recent";
+    const searchText = searchParams.get("searchText") || "";
+    const searchBoardList = useGetSearchBoardList();
 
     const orderSelectOptions = [
         {label: "최근 게시글", value: "recent"},
@@ -56,32 +63,46 @@ function BoardListPage(props) {
                         <div>Count</div>
                         <div>Date</div>
                     </li>
-                    <li>
-                        <div>1000</div>
-                        <div>게시글 임시 제목입니다.</div>
-                        <div>
+                    {
+                        searchBoardList.isLoading ||
+                        searchBoardList.data.data.boardSearchList.map(boardList => 
+                        <li key={boardList.boardId}>
+                            <div>{boardList.boardId}</div>
+                            <div>{boardList.title}</div>
                             <div css={s.boardWriter}>
-                                <img src="" alt="" />
+                                <div>
+                                    <img src={`http://localhost:8080/image/user/profile/${boardList.profileImg || "default.png"}`} alt="" />
+                                </div>
+                                <span>{boardList.nickname}</span>
                             </div>
-                            <span>nickname</span>
-                        </div>
-                        <div css={s.boardCounts}>
-                            <span>
-                                <GrView/>
-                                <span>100000</span>
-                            </span>
-                            <span>
-                                <FcLike />
-                                <span>3000</span>
-                            </span>
-                            
-                        </div>
-                        <div>2025-03-05</div>
-                    </li>
+                            <div css={s.boardCounts}>
+                                <span>
+                                    <GrView/>
+                                    <span>{boardList.viewCount}</span>
+                                </span>
+                                <span>
+                                    <FcLike />
+                                    <span>{boardList.likeCount}</span>
+                                </span>
+                                
+                            </div>
+                            <div>{boardList.createdAt}</div>
+                        </li>
+                        )
+                    }
                 </ul>
             </div>
             <div css={s.footer}>
-                1, 2, 3, 4, 5
+                <div css={s.pageNumbers}>
+                    <div><GoChevronLeft/></div>
+                    <div css={s.pageNum(page === "1")}>1</div>
+                    <div css={s.pageNum(page === "2")}>2</div>
+                    <div css={s.pageNum(page === "3")}>3</div>
+                    <div css={s.pageNum(page === "4")}>4</div>
+                    <div css={s.pageNum(page === "5")}>5</div>
+
+                    <div><GoChevronRight/></div>
+                </div>
             </div>
         </div>
     );
