@@ -23,7 +23,7 @@ function BoardListPage(props) {
     });
 
     const [ pageNumbers, setPageNumbers ] = useState([]);
-    const [searchInputValue, setSearchInputValue] = useState("");
+    const [searchInputValue, setSearchInputValue] = useState(searchText);
 
     const orderSelectOptions = [
         {label: "최근 게시글", value: "recent"},
