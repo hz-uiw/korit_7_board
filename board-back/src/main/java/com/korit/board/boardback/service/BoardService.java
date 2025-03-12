@@ -58,4 +58,14 @@ public class BoardService {
     public int getBoardListCountBySearchText(String searchText) {
         return boardRepository.findBoardCountAllBySearchText(searchText);
     }
+
+    @Transactional(readOnly = true)
+    public List<BoardSearch> getBoardCategoryList(User user, String categoryName, ReqBoardListSearchDto dto) {
+        int startIndex = (dto.getPage() - 1) * dto.getLimitCount();
+        return boardRepository.boardListAllByUserIdAndCategoryNameAndSearchOption(user.getUserId(), categoryName, startIndex, dto.getLimitCount());
+    }
+
+    public int getBoardCategoryCountByUserIdAndCategoryName(User user, String categoryName) {
+        return boardRepository.findBoardCategoryCountByUserIdAndCategoryName(user.getUserId(), categoryName);
+    }
 }
