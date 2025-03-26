@@ -54,6 +54,7 @@ export const searchInputBox = css`
 
 export const main = css`
     padding: 1rem;
+    height: 48rem;
 `;
 
 export const boardListContainer = css`
@@ -192,14 +193,15 @@ export const pageNumbers = css`
         background-color: #ffffff;
 
         &:hover {
-            background-color: #eeeeee;
+            background-color: #e8f2ff;
         }
         &:active {
             background-color: #dfedff;
         }
 
         &:disabled {
-            background-color: #fafafa;
+            background-color: #dbdbdb;
+            cursor: default;
         }
 
         & > span {
@@ -209,5 +211,5 @@ export const pageNumbers = css`
 `;
 
 export const pageNum = (isSelect) => css`
-    background-color: ${isSelect ? "#eeeeee" : "#ffffff"} !important;
+    background-color: ${isSelect ? "#dfedff" : "#ffffff"} !important;
 `;

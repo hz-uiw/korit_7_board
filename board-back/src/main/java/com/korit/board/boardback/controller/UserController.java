@@ -31,7 +31,7 @@ public class UserController {
 
 //        int userId = principalUser.getUser().getUserId();     // login 시 인증 토큰을 받기 때문에 이렇게 할 필요 X
         if(principalUser.getUser().getProfileImg() == null) {
-            principalUser.getUser().setProfileImg("default.png");
+            principalUser.getUser().setProfileImg("default.jpg");
         }
         return ResponseEntity.ok().body(principalUser.getUser());
     }

@@ -73,7 +73,7 @@ function MainSidebar(props) {
                         </div>
                     </div>
                     <div css={s.groupLayout}>
-                        <Link to={"/board/list?page=1&order=recent&searchText="} >
+                        <Link to={"/board/list?page=1&order=recent&searchText="}>
                             <button css={emptyButton}>
                                 <span>
                                     전체 게시글

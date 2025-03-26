@@ -17,14 +17,4 @@ public interface BoardMapper {
             @Param("searchText") String searchText
     );
     int selectBoardCountAllBySearchText(@Param("searchText") String searchText);
-    List<BoardSearch> selectBoardListAllByUserIdAndCategoryNameAndSearchOption(
-            @Param("userId") int userId,
-            @Param("categoryName") String categoryName,
-            @Param("startIndex") int startIndex,
-            @Param("limitCount") int limitCount
-    );
-    int selectBoardCategoryCountAllBySearchTextByUserIdAndCategoryName(
-            @Param("UserId") int UserId,
-            @Param("categoryName") String categoryName
-            );
 }
